@@ -9,3 +9,4 @@ make tests
 To see the tests run in test/main/js/merge-tests.js and check out the code in those to get an idea of how to use this simple library.
 
 # Usage in the Browser
+See the file src/main/views/index.html in your browser and check the console to see one of the above merge-tests run in the browser.
