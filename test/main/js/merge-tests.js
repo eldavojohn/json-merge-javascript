@@ -113,6 +113,9 @@ describe('#mergeTests', function() {
     reinit();
     merge.mergeObject(objz, obj2, 'name');
     obj1.name.should.equal('Phil'); // name was ignored
+    reinit();
+    merge.mergeObject(objz, obj2, ['name']);
+    obj1.name.should.equal('Phil'); // name was ignored
     merge.objectEquals(obj2, obj).should.equal(false);
   });
 });
