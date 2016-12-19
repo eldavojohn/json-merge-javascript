@@ -118,7 +118,6 @@ function recursiveMerge(a, b, ignoreProps = []) {
           break;
         case String:
           if (value && b[property] && valueClass == bvalueClass && value != b[property]) {
-						console.log(value);
             a[property] = value.concat(b[property]);
           } else if (b[property]) {
             a[property] = b[property];

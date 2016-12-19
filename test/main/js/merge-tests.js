@@ -87,8 +87,7 @@ describe('#mergeTests', function() {
   it('verfies the merge function handles two objects with array properties', function() {
     merge.mergeObject(obj1, obj2);
     obj1.objectArray.length.should.equal(4);
-    obj1.name.should.equal('PhilScott');
-    console.log(obj1);
+    obj1.name.should.equal('PhilScott'); // unless you pass it into ignoreprops, strings are appended, values added
   });
 
   it('verifies two objects with the same properties are equal', function() {
@@ -113,7 +112,7 @@ describe('#mergeTests', function() {
   it('verifies an ignored property is ignored', function() {
     reinit();
     merge.mergeObject(objz, obj2, 'name');
-    obj1.name.should.equal('Phil');
+    obj1.name.should.equal('Phil'); // name was ignored
     merge.objectEquals(obj2, obj).should.equal(false);
   });
 });
