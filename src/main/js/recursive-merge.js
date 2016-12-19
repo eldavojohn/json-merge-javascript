@@ -1,5 +1,4 @@
 module.exports = {
-  // return true if the two vectors are equal
   objectEquals: function(a, b, ignoreProps = []) {
     return objectEqualsRecursive(a, b, ignoreProps);
   },
@@ -9,6 +8,7 @@ module.exports = {
   }
 }
 
+// boolean function that returns only true or false
 function objectEqualsRecursive(a, b, ignoreProps = []) {
   var ignoreProps = [];
   if (a.constructor != b.constructor || a && !b || !b && a) {
@@ -101,34 +101,45 @@ function arraysMerge(arr1, arr2, ignoreProps = []) {
 function recursiveMerge(a, b, ignoreProps = []) {
   var aprops = Object.getOwnPropertyNames(a);
   Object.getOwnPropertyNames(b).forEach(function(property) {
-    if (aprops.indexOf(property) != -1) {
+    if (aprops.indexOf(property) != -1 && ignoreProps.indexOf(property) == -1) {
       // need to merge
-      var value = a[property];
-      var valueClass = value.constructor;
+      var value = a[property], bvalue = b[property];
+      var valueClass = value.constructor, bvalueClass;
+			if(b[property]) {
+				bvalueClass = bvalue.constructor;
+			}
       switch (valueClass) {
         case Object:
           if (value && b[property]) {
-            recursiveMerge(a[property], b[property], ignoreProps);
+            recursiveMerge(value, b[property], ignoreProps);
           } else if (b[property]) {
             a[property] = b[property];
           }
           break;
         case String:
-          if (value && b[property] && value != b[property]) {
+          if (value && b[property] && valueClass == bvalueClass && value != b[property]) {
+						console.log(value);
             a[property] = value.concat(b[property]);
           } else if (b[property]) {
             a[property] = b[property];
           }
           break;
         case Array:
-          if (value && b[property]) {
-            a[property] = arraysMerge(a[property], b[property]);
+          if (value && b[property] && valueClass == bvalueClass) {
+            a[property] = arraysMerge(value, b[property]);
+          } else if (b[property]) {
+            a[property] = b[property];
+          }
+          break;
+        case Number:
+          if (value && b[property] && valueClass == bvalueClass) {
+            a[property] = value + b[property];
           } else if (b[property]) {
             a[property] = b[property];
           }
           break;
         default:
-          console.log('miss');
+          console.log('miss on value class ' + valueClass.toString());
       }
     } else {
       a[property] = b[property];
